@@ -61,12 +61,12 @@ class CkipTokenClassification(metaclass=ABCMeta):
         model_name: str,
         tokenizer_name: Optional[str] = None,
         *,
-        device: int = -1,
+        device: str = "cpu",
     ):
         self.model = AutoModelForTokenClassification.from_pretrained(model_name)
         self.tokenizer = BertTokenizerFast.from_pretrained(tokenizer_name or model_name)
 
-        self.device = torch.device("cpu" if device < 0 else f"cuda:{device}")  # pylint: disable=no-member
+        self.device = torch.device(device)  # pylint: disable=no-member
         self.model.to(self.device)
 
     ########################################################################################################################
